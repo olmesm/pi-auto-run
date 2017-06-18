@@ -1,3 +1,4 @@
+require('geckodriver');
 const webdriver = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox')
 
@@ -17,10 +18,9 @@ let i = 0;
 // https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/firefox/index.html
 
 let profile = new firefox.Profile();
-profile.addExtension('./addon/r_kiosk-0.9.0-fx.xpi');
+// profile.addExtension('./addon/r_kiosk-0.9.0-fx.xpi');
 
 let options = new firefox.Options()
-  // .setBinary('/my/firefox/install/dir/firefox-bin'); // Different binary
   .setProfile(profile);
 
 const driver = new webdriver.Builder()
@@ -28,7 +28,7 @@ const driver = new webdriver.Builder()
   .setFirefoxOptions(options)
   .build();
 
-driver.manage().window().maximize()
+// driver.manage().window().maximize()
 
 function doLogin() {
   return driver.findElement(By.id('login-form-username')).sendKeys(config.login)
@@ -38,10 +38,18 @@ function doLogin() {
 
 function runWeb(url, msec) {
   const sec = msec * 1000;
+  // driver.executeScript('setTimer(function(){ console.log("Yolo") }, 100)')
+
 
   driver.get(url)
     .then(res => driver.findElements(By.id('login-form-username')))
     .then(res => res.length >= 1 ? doLogin() : {})
+    .then(res => driver.executeScript(`
+      setInterval(
+        function() {
+          document.getElementById('ghx-pool').scrollTop +=1;
+        }, 200);
+      `))
     .then(res => setTimeout(incrementCounter, sec))
 }
 
