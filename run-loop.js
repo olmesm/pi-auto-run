@@ -7,8 +7,8 @@ function requireUncached(module){
   return require(module)
 }
 
-let config = requireUncached('./config');
-let credentials = require('./credentials');
+let tasks = requireUncached('./tasks');
+let config = require('./config');
 
 const By = webdriver.By;
 const until = webdriver.until;
@@ -17,7 +17,13 @@ let i = 0;
 
 const options = new chrome.Options();
 options.setUserPreferences( { enable_do_not_track: true } );
-options.addArguments('--incognito', '--kiosk', 'disable-infobars', '--app=https://google.com');
+options.addArguments(
+  '--incognito',
+  '--kiosk',
+  'disable-infobars',
+  '--app=https://google.com'
+);
+options.setChromeBinaryPath('/usr/local/bin/chromium');
 
 const driver = new webdriver.Builder()
   .forBrowser('chrome')
@@ -25,8 +31,8 @@ const driver = new webdriver.Builder()
   .build();
 
 function doLogin() {
-  return driver.findElement(By.id('login-form-username')).sendKeys(credentials.login)
-  .then(res => driver.findElement(By.id('login-form-password')).sendKeys(credentials.password))
+  return driver.findElement(By.id('login-form-username')).sendKeys(config.login)
+  .then(res => driver.findElement(By.id('login-form-password')).sendKeys(config.password))
   .then(res => driver.findElement(By.name('login')).click());
 }
 
@@ -40,7 +46,7 @@ function runWeb(url, msec) {
 }
 
 function loopDeLoop() {
-  let current = config[i];
+  let current = tasks[i];
   console.log('running', current.name);
   runWeb(current.url, current.sec);
 }
@@ -48,8 +54,8 @@ function loopDeLoop() {
 function incrementCounter() {
   i++;
 
-  if (i === config.length) {
-    config = requireUncached('./config');
+  if (i === tasks.length) {
+    tasks = requireUncached('./tasks');
     i = 0;
   }
 
