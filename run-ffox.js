@@ -18,7 +18,7 @@ let i = 0;
 // https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/firefox/index.html
 
 let profile = new firefox.Profile();
-// profile.addExtension('./addon/r_kiosk-0.9.0-fx.xpi');
+profile.addExtension('./addon/r_kiosk-0.9.0-fx.xpi');
 
 let options = new firefox.Options()
   .setProfile(profile);
@@ -38,8 +38,6 @@ function doLogin() {
 
 function runWeb(url, msec) {
   const sec = msec * 1000;
-  // driver.executeScript('setTimer(function(){ console.log("Yolo") }, 100)')
-
 
   driver.get(url)
     .then(res => driver.findElements(By.id('login-form-username')))
