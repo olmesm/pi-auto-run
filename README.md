@@ -9,9 +9,9 @@ Runs through Jira Boards using a Raspberry Pi.
 * Single JSON file to set tasks/pages and period to view.
 
 
-## To Setup and Run
+## To Setup Pi and Run
 
-Please look at the included setup script and understand the steps prior to running.
+Please look at the included [setup script](./setup.sh) and understand the steps prior to running.
 
 Run the following on a new installation of Raspbian:
 
