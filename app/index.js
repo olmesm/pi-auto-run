@@ -1,14 +1,10 @@
 require('geckodriver');
 const webdriver = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox')
+const requireUncached = require('./require-uncached');
 
-function requireUncached(module){
-  delete require.cache[require.resolve(module)]
-  return require(module)
-}
-
-let tasks = requireUncached('./tasks');
-let config = require('./config');
+let config = require('../config');
+let tasks = requireUncached('../tasks');
 
 const By = webdriver.By;
 const until = webdriver.until;
@@ -28,7 +24,7 @@ const driver = new webdriver.Builder()
   .setFirefoxOptions(options)
   .build();
 
-// driver.manage().window().maximize()
+driver.manage().window().maximize()
 
 function doLogin() {
   return driver.findElement(By.id('login-form-username')).sendKeys(config.login)
@@ -42,6 +38,7 @@ function runWeb(url, msec) {
   driver.get(url)
     .then(res => driver.findElements(By.id('login-form-username')))
     .then(res => res.length >= 1 ? doLogin() : {})
+    // Scroll through the page slowly
     .then(res => driver.executeScript(`
       setInterval(
         function() {
