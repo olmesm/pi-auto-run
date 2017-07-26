@@ -1,9 +1,10 @@
 require('geckodriver');
+
 const webdriver = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox')
 const requireUncached = require('./require-uncached');
+const config = require('../config');
 
-let config = require('../config');
 let tasks = requireUncached('../tasks');
 
 const By = webdriver.By;

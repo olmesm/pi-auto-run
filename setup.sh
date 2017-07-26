@@ -32,6 +32,12 @@ export NVM_DIR="$HOME/.nvm"
 ## Get Node
 nvm install 7
 
+## Add Node Modules to path
+
+echo '
+PATH="./node_modules/.bin:$PATH"' >> ~/.bashrc
+
+source .bashrc
 
 ########################################
 # Clone Repo
