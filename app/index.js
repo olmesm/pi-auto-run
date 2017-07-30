@@ -3,9 +3,11 @@ require('geckodriver');
 const webdriver = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox')
 const requireUncached = require('./require-uncached');
-const config = require('../config');
 
-let tasks = requireUncached('../tasks');
+const settingsLocation = process.env.BOOT_DIR + '/' + process.env.REPO_NAME;
+const config = require(settingsLocation + '/pi-auto-run/config');
+
+let tasks = requireUncached(settingsLocation + '/pi-auto-run/tasks');
 
 const By = webdriver.By;
 const until = webdriver.until;
@@ -39,6 +41,7 @@ function runWeb(url, msec) {
   driver.get(url)
     .then(res => driver.findElements(By.id('login-form-username')))
     .then(res => res.length >= 1 ? doLogin() : {})
+
     // Scroll through the page slowly
     .then(res => driver.executeScript(`
       setInterval(

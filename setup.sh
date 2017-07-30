@@ -1,8 +1,9 @@
-#! /usr/bin/bash
+#! /bin/bash
 
 ########################################
 # Setup Variables
 
+BOOT_DIR="/boot"
 REPO_NAME="pi-auto-run"
 REPO="git@github.com:olmesm/$REPO_NAME.git"
 REBOOT_TIME=60
@@ -31,6 +32,7 @@ export NVM_DIR="$HOME/.nvm"
 
 ## Get Node
 nvm install 7
+nvm use 7 --default
 
 ## Add Node Modules to path
 
@@ -62,6 +64,10 @@ npm install
 ########################################
 # Create Required Files
 
+mkdir -p $BOOT_DIR/$REPO_NAME
+
+# may need to sudo then chown ^^^
+
 echo '
 [
   {
@@ -75,20 +81,28 @@ echo '
     "sec": 10
   }
 ]
-' > tasks.json
+' > $BOOT_DIR/$REPO_NAME/tasks.json
 
 echo '
 {
   "login": "user-login",
   "password": "user-password"
 }
-' > config.json
+' > $BOOT_DIR/$REPO_NAME/config.json
+
+## Add to path
+
+echo "
+export BOOT_DIR=$BOOT_DIR
+export REPO_NAME=$REPO_NAME" >> ~/.bashrc
+
+source .bashrc
 
 
 ########################################
 # Finish Setup Raspbian
 
-# touch /boot/ssh
+touch $BOOT_DIR/ssh
 # Set overscan/HDMI
 # Setup WIFI
 # Setup npm start on boot
@@ -105,10 +119,10 @@ To Start:
 $ npm start
 
 To add/edit/remove tasks:
-$ vim tasks.json
+$ vim $BOOT_DIR/$REPO_NAME/tasks.json
 
 To add/edit/remove Login details (Jira tested only):
-$ vim config.json
+$ vim $BOOT_DIR/$REPO_NAME/config.json
 
 Will auto-reboot this device in $REBOOT_TIME seconds.
 "
