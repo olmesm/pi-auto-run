@@ -5,7 +5,7 @@ const firefox = require('selenium-webdriver/firefox')
 const requireUncached = require('./require-uncached');
 
 const settingsLocation = process.env.BOOT_DIR + '/' + process.env.REPO_NAME;
-const config = require(settingsLocation + '/pi-auto-run/config');
+const jiraConfig = require(settingsLocation + '/pi-auto-run/jira-config');
 
 let tasks = requireUncached(settingsLocation + '/pi-auto-run/tasks');
 

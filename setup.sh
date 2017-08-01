@@ -45,7 +45,7 @@ source .bashrc
 # Clone Repo
 
 git clone $REPO
-cd $REPO
+cd $REPO_NAME
 
 
 ########################################
@@ -88,11 +88,12 @@ echo '
   "login": "user-login",
   "password": "user-password"
 }
-' > $BOOT_DIR/$REPO_NAME/config.json
+' > $BOOT_DIR/$REPO_NAME/jira-config.json
 
 ## Add to path
 
 echo "
+
 export BOOT_DIR=$BOOT_DIR
 export REPO_NAME=$REPO_NAME" >> ~/.bashrc
 
@@ -105,7 +106,26 @@ source .bashrc
 touch $BOOT_DIR/ssh
 # Set overscan/HDMI
 # Setup WIFI
-# Setup npm start on boot
+
+echo '
+# Setup Wifi
+
+Go to <https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md>
+
+' > $BOOT_DIR/$REPO_NAME/SETTING-UP-WIFI.md
+
+echo '
+network={
+    ssid="testing"
+    psk="testingPassword"
+}
+' > $BOOT_DIR/$REPO_NAME/wifi.config
+
+# Startup script
+echo "
+sleep 5
+~/$REPO_NAME/scripts/startup.sh
+" >> ~/.bashrc
 
 
 ########################################
@@ -121,8 +141,11 @@ $ npm start
 To add/edit/remove tasks:
 $ vim $BOOT_DIR/$REPO_NAME/tasks.json
 
-To add/edit/remove Login details (Jira tested only):
-$ vim $BOOT_DIR/$REPO_NAME/config.json
+To add/edit/remove Jira Login details:
+$ vim $BOOT_DIR/$REPO_NAME/jira-config.json
+
+To add/edit/remove wifi Login details:
+$ vim $BOOT_DIR/$REPO_NAME/wifi.config
 
 Will auto-reboot this device in $REBOOT_TIME seconds.
 "
