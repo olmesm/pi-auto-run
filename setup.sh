@@ -5,7 +5,7 @@
 
 BOOT_DIR="/boot"
 REPO_NAME="pi-auto-run"
-REPO="git@github.com:olmesm/$REPO_NAME.git"
+REPO="https://github.com/olmesm/$REPO_NAME.git"
 REBOOT_TIME=60
 
 ########################################
@@ -17,7 +17,7 @@ cd
 # Setup Firefox
 
 sudo apt-get update
-sudo apt-get install firefox git -y
+sudo apt-get install iceweasel git -y
 
 
 ########################################
