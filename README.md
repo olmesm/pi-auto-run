@@ -16,9 +16,12 @@ Please look at the included [setup script](./setup.sh) and understand the steps 
 Run the following on a new installation of Raspbian:
 
 ```
-wget -qO- https://raw.githubusercontent.com/olmesm/pi-auto-run/master/setup.sh | bash
+wget https://github.com/olmesm/pi-auto-run/archive/master.zip -O pi-auto-run.zip
+unzip pi-auto-run.zip
+rm pi-auto-run.zip
+cd pi-auto-run
+sh setup.sh
 ```
-
 
 ## Todo
 

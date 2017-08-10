@@ -44,8 +44,8 @@ source .bashrc
 ########################################
 # Clone Repo
 
-git clone $REPO
-cd $REPO_NAME
+# git clone $REPO
+# cd $REPO_NAME
 
 
 ########################################
