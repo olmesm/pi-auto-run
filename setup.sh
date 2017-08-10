@@ -64,31 +64,11 @@ npm install
 ########################################
 # Create Required Files
 
-mkdir -p $BOOT_DIR/$REPO_NAME
+sudo mkdir -p $BOOT_DIR/$REPO_NAME
 
-# may need to sudo then chown ^^^
+# Make Tasks.json and jira-config.json
 
-echo '
-[
-  {
-    "name": "Example 1",
-    "url": "https://google.com",
-    "sec": 10
-  },
-  {
-    "name": "Example 2",
-    "url": "https://jira.com",
-    "sec": 10
-  }
-]
-' > $BOOT_DIR/$REPO_NAME/tasks.json
-
-echo '
-{
-  "login": "user-login",
-  "password": "user-password"
-}
-' > $BOOT_DIR/$REPO_NAME/jira-config.json
+sudo ./scripts/_setup-boot-files.sh
 
 ## Add to path
 
@@ -103,23 +83,12 @@ source .bashrc
 ########################################
 # Finish Setup Raspbian
 
-touch $BOOT_DIR/ssh
+sudo ./scripts/_setup-ssh.sh
+
 # Set overscan/HDMI
 # Setup WIFI
 
-echo '
-# Setup Wifi
-
-Go to <https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md>
-
-' > $BOOT_DIR/$REPO_NAME/SETTING-UP-WIFI.md
-
-echo '
-network={
-    ssid="testing"
-    psk="testingPassword"
-}
-' > $BOOT_DIR/$REPO_NAME/wifi.config
+sudo ./scripts/_setup-wifi.sh
 
 # Startup script
 echo "
