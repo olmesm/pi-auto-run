@@ -1,20 +1,22 @@
+// Below is the effect of a 2am code-scramble
+
 require('geckodriver');
 
 const webdriver = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox')
-const requireUncached = require('./require-uncached');
 
-const settingsLocation = process.env.BOOT_DIR + '/' + process.env.REPO_NAME;
-const jiraConfig = require(settingsLocation + '/pi-auto-run/jira-config');
+const settingsLocation = '/boot/auto-run';
+const jiraConfig = require(settingsLocation + '/jira-login');
 
-let tasks = requireUncached(settingsLocation + '/pi-auto-run/tasks');
+// // let tasks = requireUncached(settingsLocation + '/tasks');
+let tasks = require(settingsLocation + '/tasks');
 
 const By = webdriver.By;
 const until = webdriver.until;
 let count = 0;
 let i = 0;
 
-// https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/firefox/index.html
+// // https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/firefox/index.html
 
 let profile = new firefox.Profile();
 profile.addExtension('./addon/r_kiosk-0.9.0-fx.xpi');
@@ -28,6 +30,7 @@ const driver = new webdriver.Builder()
   .build();
 
 driver.manage().window().maximize()
+
 
 function doLogin() {
   return driver.findElement(By.id('login-form-username')).sendKeys(config.login)

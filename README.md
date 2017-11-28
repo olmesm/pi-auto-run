@@ -1,56 +1,58 @@
-# Auto Browse
+# Auto-run
 
-Runs through Jira Boards using a Raspberry Pi.
-
-## Features
-
-* Easily set Jira Login.
-* Setup Script Included (See below).
-* Single JSON file to set tasks/pages and period to view.
+**NOTE** ~~This only works with [Raspbian Jessie](https://downloads.raspberrypi.org/raspbian/images/raspbian-2017-07-05/).~~
 
 
-## To Setup Pi and Run
+**NOTE** This now doesnt work with anything... Firefox got an update and has broken since iceweasel v38.
 
-Please look at the included [setup script](./setup.sh) and understand the steps prior to running.
+![Midnight Warrior](https://media.giphy.com/media/upztYklL3VhNm/giphy.gif)
 
-Run the following on a new installation of Raspbian:
+Newer Versions on Raspbian use a version of firefox which is not compatible with Selenium/
 
-```
-wget https://github.com/olmesm/pi-auto-run/archive/master.zip -O pi-auto-run.zip
-unzip pi-auto-run.zip
-rm pi-auto-run.zip
-cd pi-auto-run
-sh setup.sh
-```
+# To Run
 
-## Todo
+On your Pi
 
-* Check Selenium needs fix ./node_modules/selenium-webdriver/lib/webdriver.js#2189
-* Webserver to change login and tasks.
-* Publish IP address of pi for SSH on top right corner of JIRA page.
-* File for Wifi Settings.
-* Store all settings on boot partition to easily access via SD.
-* Create JS Scroll feature so all stories/tickets can be seen.
-  - Possibly remove timer then or have timer only expire once scrolled.
+```sh
+# Using a fresh install of Raspian Jessie
+# https://www.raspberrypi.org/documentation/installation/installing-images/
 
-<!--
-May no longer require this with latest Selenium.
+# Boot up the pi and set the network to the same as your PC
 
-./node_modules/selenium-webdriver/lib/webdriver.js
+# Using Pi Terminal
+# Enable SSH
+sudo touch /boot/ssh
 
-```js
-// 2189 from
-setParameter('text', keys).
-// to
-setParameter('text', keys.then(keys => keys.join(''))).
+# Reboot
+sudo reboot
 ```
 
-https://github.com/SeleniumHQ/selenium/commit/6907a129a3c02fe2dfc54700137e7f9aa025218a
-http://www.mantonel.com/tutorials/web-scraping-raspberry-pi-and-python
+On your PC
 
--->
+```sh
 
-## Resources
+# Clone this repo to your pc
+git clone https://github.com/olmesm/pi-auto-run.git
 
-* [Selenium Webdriver >2 doesn't work](http://www.mantonel.com/tutorials/web-scraping-raspberry-pi-and-python)
-* [Selenium Firefow Webdirver Client Setup](https://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/firefox/index.html)
+# SSH into the pi and Create the required directories
+ssh pi@raspberrypi 'mkdir app scripts' # password will be raspberry - dont change it yet
+
+# Copy the relevant scripts and app across from local PC
+scp -r ./app ./scripts pi@raspberrypi:~
+
+# Setup the pi
+ssh pi@raspberrypi 'sudo sh ~/scripts/setup.sh' 
+
+# Setup NVM and Node
+ssh pi@raspberrypi 'sh ~/scripts/configs/setup-node.sh'
+
+# Setup the app
+ssh pi@raspberrypi 'cd ~/app && npm i'
+```
+
+## TODO
+
+- Get Node Working with Selenium on the Pi
+- Run script to start process
+
+<!-- rsync -r -e ssh ./pi/scripts/ pi@raspberrypi:scripts -->
