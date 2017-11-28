@@ -30,7 +30,6 @@ sudo reboot
 On your PC
 
 ```sh
-
 # Clone this repo to your pc
 git clone https://github.com/olmesm/pi-auto-run.git
 
@@ -48,7 +47,28 @@ ssh pi@raspberrypi 'sh ~/scripts/configs/setup-node.sh'
 
 # Setup the app
 ssh pi@raspberrypi 'cd ~/app && npm i'
+
+# You may need to fix Selenium error with the following command
+# https://github.com/SeleniumHQ/selenium/commit/6907a129a3c02fe2dfc54700137e7f9aa025218a
+ssh pi@raspberrypi 'cd ~/app && npm run fix'
+
+# Run app
+ssh pi@raspberrypi 'cd ~/app && npm start'
 ```
+
+## Easy Access
+
+I have designed the app to allow for easy changing of various credentials and tasks. They can either be chaged via the Pi, or by powering down the Pi and inserting the card into your SD card reader and changing the files there.
+
+Mac and Windows can't read all the partions required for the Pi, but there is a `boot` partition that uses FAT filesystem. All the configurable files are located there - `/boot/auto-run/`.
+
+Configs for the app that can be found in `/boot/auto-run/` are:
+
+- Jira Tasks
+- Jira Login Details
+- Wifi Login Details
+
+Please read the [Wifi Setup Instructions](./scripts/configs/SETTING-UP-WIFI.md)
 
 ## TODO
 
